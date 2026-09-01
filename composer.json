@@ -1,0 +1,25 @@
+{
+  "name": "shipwake/laravel-ai-crawl",
+  "description": "Server-side AI crawler tracking middleware for Laravel applications.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.3",
+    "illuminate/contracts": "^13.0",
+    "illuminate/http": "^13.0",
+    "illuminate/queue": "^13.0",
+    "illuminate/support": "^13.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Shipwake\\LaravelAiCrawl\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Shipwake\\LaravelAiCrawl\\ShipwakeAiCrawlServiceProvider"
+      ]
+    }
+  }
+}
