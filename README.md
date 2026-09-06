@@ -20,7 +20,7 @@ SHIPWAKE_AI_CRAWL_QUEUE=analytics
 
 Register `Shipwake\LaravelAiCrawl\Http\Middleware\TrackAiCrawler::class` in the `web` middleware group from `bootstrap/app.php`.
 
-The middleware calls the application normally, then queues the outbound request with `afterResponse()`. A slow analytics endpoint therefore cannot delay the page or the Inertia response.
+The middleware calls the application normally, then queues the outbound request when Laravel terminates the response. The configured queue and connection are therefore honoured, and a slow analytics endpoint cannot delay the page or the Inertia response.
 
 ## Laravel + Inertia + React
 

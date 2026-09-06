@@ -25,11 +25,33 @@
       "Shipwake\\LaravelAiCrawl\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Shipwake\\LaravelAiCrawl\\Tests\\": "tests/"
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
         "Shipwake\\LaravelAiCrawl\\ShipwakeAiCrawlServiceProvider"
       ]
+    }
+  },
+  "require-dev": {
+    "orchestra/testbench": "^11.0",
+    "pestphp/pest": "^4.7",
+    "pestphp/pest-plugin-laravel": "^4.0"
+  },
+  "scripts": {
+    "test": "pest --compact",
+    "test:coverage": "php -d pcov.enabled=1 vendor/bin/pest --coverage --min=100"
+  },
+  "config": {
+    "platform": {
+      "php": "8.3.0"
+    },
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
     }
   }
 }

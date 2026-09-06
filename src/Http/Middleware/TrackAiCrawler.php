@@ -33,15 +33,16 @@ class TrackAiCrawler
             ],
         ];
 
-        $dispatch = SendAiCrawlerRequest::dispatch($payload)
-            ->onQueue((string) config('shipwake-ai-crawl.queue', 'analytics'))
-            ->afterResponse();
+        $job = (new SendAiCrawlerRequest($payload))
+            ->onQueue((string) config('shipwake-ai-crawl.queue', 'analytics'));
 
         $connection = config('shipwake-ai-crawl.connection');
 
         if (is_string($connection) && $connection !== '') {
-            $dispatch->onConnection($connection);
+            $job->onConnection($connection);
         }
+
+        app()->terminating(static fn () => dispatch($job));
 
         return $response;
     }
