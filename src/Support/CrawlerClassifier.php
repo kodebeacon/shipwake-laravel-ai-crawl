@@ -92,6 +92,6 @@ class CrawlerClassifier
     private function isCrawlerFacingPath(string $path): bool
     {
         return in_array($path, ['/robots.txt', '/llms.txt', '/llms-full.txt'], true)
-            || preg_match('/(?:^|\/)sitemap(?:[-_][^/]+)?\.xml$/i', $path) === 1;
+            || preg_match('~(?:^|/)sitemap(?:[-_][^/]+)?\.xml$~i', $path) === 1;
     }
 }
