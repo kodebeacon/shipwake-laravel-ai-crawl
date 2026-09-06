@@ -48,7 +48,7 @@ class TrackAiCrawler
 
     private function publicUrl(Request $request): string
     {
-        $origin = config('shipwake-ai-crawl.public_origin');
+        $origin = config('shipwake-ai-crawl.public_origin') ?: config('app.url');
 
         if (is_string($origin) && $origin !== '') {
             return rtrim($origin, '/').'/'.ltrim($request->getRequestUri(), '/');

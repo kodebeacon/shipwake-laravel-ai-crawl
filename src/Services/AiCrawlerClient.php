@@ -30,6 +30,7 @@ class AiCrawlerClient
 
         Log::warning('Shipwake AI crawler tracking returned an error.', [
             'status' => $response->status(),
+            'reason' => $response->json('reason'),
         ]);
 
         return false;
