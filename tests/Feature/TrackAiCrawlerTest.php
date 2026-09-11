@@ -5,7 +5,6 @@ use Shipwake\LaravelAiCrawl\Http\Middleware\TrackAiCrawler;
 use Shipwake\LaravelAiCrawl\Jobs\SendAiCrawlerRequest;
 
 beforeEach(function (): void {
-    config()->set('shipwake-ai-crawl.endpoint', 'https://signal.test/api/ai-crawls');
     config()->set('shipwake-ai-crawl.site_key', 'site-public-key');
     config()->set('shipwake-ai-crawl.server_token', 'private-server-token');
     config()->set('shipwake-ai-crawl.queue', 'crawler-events');
@@ -60,7 +59,7 @@ it('passes through requests when a required tracking setting is absent', functio
     $this->withHeader('User-Agent', 'GPTBot/1.2')->get('/tracked')->assertCreated();
 
     Queue::assertNothingPushed();
-})->with(['site_key', 'server_token', 'endpoint']);
+})->with(['site_key', 'server_token']);
 
 it('passes through regular visitor requests without queueing', function (): void {
     Queue::fake();

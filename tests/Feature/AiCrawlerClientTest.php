@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 use Shipwake\LaravelAiCrawl\Services\AiCrawlerClient;
 
 beforeEach(function (): void {
-    config()->set('shipwake-ai-crawl.endpoint', 'https://signal.test/api/ai-crawls');
     config()->set('shipwake-ai-crawl.site_key', 'configured-site-key');
     config()->set('shipwake-ai-crawl.server_token', 'private-server-token');
     config()->set('shipwake-ai-crawl.timeout', 4);
@@ -28,7 +27,7 @@ it('sends the payload as authenticated JSON with configured timeouts', function 
     expect(app(AiCrawlerClient::class)->send($payload))->toBeTrue();
 
     Http::assertSent(function (HttpRequest $request): bool {
-        return $request->url() === 'https://signal.test/api/ai-crawls'
+        return $request->url() === 'https://shipwake.dev/api/ai-crawls'
             && $request->hasHeader('Authorization', 'Bearer private-server-token')
             && $request->hasHeader('Accept', 'application/json')
             && $request->hasHeader('Content-Type', 'application/json')
@@ -39,7 +38,7 @@ it('sends the payload as authenticated JSON with configured timeouts', function 
         ->and($options['connect_timeout'])->toBe(2);
 });
 
-it('does not send a request without every required credential and endpoint', function (string $setting): void {
+it('does not send a request without every required credential', function (string $setting): void {
     Http::fake();
     $payload = crawlerPayload();
 
@@ -51,7 +50,7 @@ it('does not send a request without every required credential and endpoint', fun
 
     expect(app(AiCrawlerClient::class)->send($payload))->toBeFalse();
     Http::assertNothingSent();
-})->with(['site_key', 'server_token', 'endpoint']);
+})->with(['site_key', 'server_token']);
 
 it('does not send a request when the payload site key is blank', function (): void {
     Http::fake();
@@ -62,7 +61,7 @@ it('does not send a request when the payload site key is blank', function (): vo
 
 it('returns false and logs the Signal rejection reason', function (): void {
     Http::fake([
-        'https://signal.test/api/ai-crawls' => Http::response([
+        'https://shipwake.dev/api/ai-crawls' => Http::response([
             'accepted' => false,
             'reason' => 'domain_mismatch',
         ], 403),

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 class AiCrawlerClient
 {
+    private const ENDPOINT = 'https://shipwake.dev/api/ai-crawls';
+
     /**
      * @param  array<string, mixed>  $payload
      */
@@ -16,13 +18,12 @@ class AiCrawlerClient
         $siteKey = (string) ($payload['site_key'] ?? config('shipwake-ai-crawl.site_key'));
 
         if ($siteKey === ''
-            || ! config('shipwake-ai-crawl.server_token')
-            || ! config('shipwake-ai-crawl.endpoint')) {
+            || ! config('shipwake-ai-crawl.server_token')) {
             return false;
         }
 
         $request = $this->request();
-        $response = $request->post((string) config('shipwake-ai-crawl.endpoint'), $payload);
+        $response = $request->post(self::ENDPOINT, $payload);
 
         if ($response->successful()) {
             return true;

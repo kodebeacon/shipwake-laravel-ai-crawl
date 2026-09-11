@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'endpoint' => env('SHIPWAKE_AI_CRAWL_ENDPOINT'),
     'site_key' => env('SHIPWAKE_SITE_KEY'),
     'server_token' => env('SHIPWAKE_SERVER_TOKEN'),
     'timeout' => (int) env('SHIPWAKE_AI_CRAWL_TIMEOUT', 1),

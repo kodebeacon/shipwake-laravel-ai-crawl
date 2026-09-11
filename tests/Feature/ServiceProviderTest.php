@@ -16,5 +16,5 @@ it('publishes its configuration file', function (): void {
     ])->assertExitCode(0);
 
     expect(config_path('shipwake-ai-crawl.php'))->toBeFile()
-        ->and(file_get_contents(config_path('shipwake-ai-crawl.php')))->toContain("'endpoint' => env('SHIPWAKE_AI_CRAWL_ENDPOINT')");
+        ->and(file_get_contents(config_path('shipwake-ai-crawl.php')))->not->toContain('SHIPWAKE_AI_CRAWL_ENDPOINT');
 });

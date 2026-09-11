@@ -16,7 +16,6 @@ class TrackAiCrawler
     {
         if (! config('shipwake-ai-crawl.site_key')
             || ! config('shipwake-ai-crawl.server_token')
-            || ! config('shipwake-ai-crawl.endpoint')
             || ! $this->classifier->shouldTrack($request)) {
             return $next($request);
         }

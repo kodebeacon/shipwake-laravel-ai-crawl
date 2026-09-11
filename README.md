@@ -14,9 +14,10 @@ Set these values in `.env`:
 ```dotenv
 SHIPWAKE_SITE_KEY=your_site_public_key
 SHIPWAKE_SERVER_TOKEN=your_private_server_token
-SHIPWAKE_AI_CRAWL_ENDPOINT=https://your-shipwake-host/api/ai-crawls
 SHIPWAKE_AI_CRAWL_QUEUE=analytics
 ```
+
+The package sends crawler signals to Shipwake's production endpoint automatically. No endpoint URL needs to be configured in the Laravel application.
 
 Register `Shipwake\LaravelAiCrawl\Http\Middleware\TrackAiCrawler::class` in the `web` middleware group from `bootstrap/app.php`.
 
@@ -26,4 +27,4 @@ The middleware calls the application normally, then queues the outbound request 
 
 No React or SPA changes are needed. Inertia navigation still works through Laravel and the middleware observes the server request around the response. Keep `window.signal.track(...)` for human pageviews and client-side route changes; this package is the complementary server-side crawler signal.
 
-The site key identifies the site and is the same public key used by the browser tracker. Generate or rotate the private server token from the Shipwake dashboard, then keep it only in server-side environment variables. The package sends the token as the Bearer credential and the raw user agent only to the Shipwake ingestion endpoint for classification; server-side crawler requests do not submit visitor IPs or create visitor identities.
+The site key identifies the site and is the same public key used by the browser tracker. Generate or rotate the private server token from the Shipwake dashboard, then keep it only in server-side environment variables. The package sends the token as the Bearer credential and the raw user agent only to Shipwake for classification; server-side crawler requests do not submit visitor IPs or create visitor identities.
