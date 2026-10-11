@@ -1,57 +1,57 @@
 {
-  "name": "shipwake/laravel-ai-crawl",
-  "description": "Server-side AI crawler tracking middleware for Laravel applications.",
-  "type": "library",
-  "license": "MIT",
-  "homepage": "https://github.com/kodebeacon/shipwake-laravel-ai-crawl",
-  "keywords": [
-    "shipwake",
-    "laravel",
-    "analytics",
-    "ai",
-    "crawler",
-    "observability"
-  ],
-  "support": {
-    "issues": "https://github.com/kodebeacon/shipwake-laravel-ai-crawl/issues",
-    "source": "https://github.com/kodebeacon/shipwake-laravel-ai-crawl"
-  },
-  "require": {
-    "php": ">=8.3",
-    "laravel/framework": "^13.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Shipwake\\LaravelAiCrawl\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Shipwake\\LaravelAiCrawl\\Tests\\": "tests/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Shipwake\\LaravelAiCrawl\\ShipwakeAiCrawlServiceProvider"
-      ]
-    }
-  },
-  "require-dev": {
-    "orchestra/testbench": "^11.0",
-    "pestphp/pest": "^4.7",
-    "pestphp/pest-plugin-laravel": "^4.0"
-  },
-  "scripts": {
-    "test": "pest --compact",
-    "test:coverage": "php -d pcov.enabled=1 vendor/bin/pest --coverage --min=100"
-  },
-  "config": {
-    "platform": {
-      "php": "8.3.0"
+    "name": "shipwake/laravel-ai-crawl",
+    "description": "Server-side AI crawler tracking middleware for Laravel applications.",
+    "type": "library",
+    "license": "MIT",
+    "homepage": "https://github.com/kodebeacon/shipwake-laravel-ai-crawl",
+    "keywords": [
+        "shipwake",
+        "laravel",
+        "analytics",
+        "ai",
+        "crawler",
+        "observability"
+    ],
+    "support": {
+        "issues": "https://github.com/kodebeacon/shipwake-laravel-ai-crawl/issues",
+        "source": "https://github.com/kodebeacon/shipwake-laravel-ai-crawl"
     },
-    "allow-plugins": {
-      "pestphp/pest-plugin": true
+    "require": {
+        "php": "^8.5",
+        "laravel/framework": "^13.35.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shipwake\\LaravelAiCrawl\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Shipwake\\LaravelAiCrawl\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Shipwake\\LaravelAiCrawl\\ShipwakeAiCrawlServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^11.0",
+        "pestphp/pest": "^5.3.1",
+        "pestphp/pest-plugin-laravel": "^5.0.1"
+    },
+    "scripts": {
+        "test": "pest --compact",
+        "test:coverage": "php -d pcov.enabled=1 vendor/bin/pest --coverage --min=100"
+    },
+    "config": {
+        "platform": {
+            "php": "8.5.0"
+        },
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
-  }
 }
