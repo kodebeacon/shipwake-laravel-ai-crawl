@@ -23,6 +23,8 @@ Register `Shipwake\LaravelAiCrawl\Http\Middleware\TrackAiCrawler::class` in the 
 
 The middleware calls the application normally, then queues the outbound request when Laravel terminates the response. The configured queue and connection are therefore honoured, and a slow analytics endpoint cannot delay the page or the Inertia response.
 
+Each signal carries an event id and the time of the request, so a retried job is counted once. The job retries network failures, rate limits and Shipwake server errors after 10 and 60 seconds; after the last attempt it logs a warning instead of failing your queue. Only the path is sent: query strings and fragments stay in your application.
+
 ## Laravel + Inertia + React
 
 No React or SPA changes are needed. Inertia navigation still works through Laravel and the middleware observes the server request around the response. Keep `window.signal.track(...)` for human pageviews and client-side route changes; this package is the complementary server-side crawler signal.

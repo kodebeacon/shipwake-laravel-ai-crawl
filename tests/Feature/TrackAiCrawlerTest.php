@@ -21,16 +21,16 @@ it('queues crawler responses with their canonical public URL', function (): void
     ])->get('/tracked?source=ai')->assertCreated();
 
     Queue::assertPushedOn('crawler-events', SendAiCrawlerRequest::class, function (SendAiCrawlerRequest $job): bool {
-        return $job->payload === [
-            'site_key' => 'site-public-key',
-            'href' => 'https://canonical.test/tracked?source=ai',
-            'referrer' => 'https://search.example/result',
-            'ai' => [
+        return $job->payload['site_key'] === 'site-public-key'
+            && is_string($job->payload['event_id'] ?? null)
+            && is_string($job->payload['occurred_at'] ?? null)
+            && $job->payload['href'] === 'https://canonical.test/tracked'
+            && $job->payload['referrer'] === 'https://search.example/result'
+            && $job->payload['ai'] === [
                 'user_agent' => 'GPTBot/1.2',
                 'status_code' => 201,
                 'source' => 'server_middleware',
-            ],
-        ];
+            ];
     });
 });
 
@@ -74,7 +74,7 @@ it('uses the app URL when no explicit public origin is configured', function ():
     config()->set('shipwake-ai-crawl.public_origin', null);
     config()->set('app.url', 'https://playbrackit.com');
 
-    expect(publicUrlFrom($middleware, 'https://request.test/tracked?source=app'))->toBe('https://playbrackit.com/tracked?source=app');
+    expect(publicUrlFrom($middleware, 'https://request.test/tracked?source=app'))->toBe('https://playbrackit.com/tracked');
 });
 
 it('uses the request URL when neither canonical origin is configured', function (): void {
@@ -82,7 +82,7 @@ it('uses the request URL when neither canonical origin is configured', function 
     config()->set('shipwake-ai-crawl.public_origin', null);
     config()->set('app.url', null);
 
-    expect(publicUrlFrom($middleware, 'https://request.test/tracked?source=request'))->toBe('https://request.test/tracked?source=request');
+    expect(publicUrlFrom($middleware, 'https://request.test/tracked?source=request'))->toBe('https://request.test/tracked');
 });
 
 function publicUrlFrom(TrackAiCrawler $middleware, string $url): string

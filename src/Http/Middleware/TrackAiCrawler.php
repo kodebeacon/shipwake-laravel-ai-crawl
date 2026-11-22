@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Shipwake\LaravelAiCrawl\Jobs\SendAiCrawlerRequest;
 use Shipwake\LaravelAiCrawl\Support\CrawlerClassifier;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Str;
 
 class TrackAiCrawler
 {
@@ -23,6 +24,8 @@ class TrackAiCrawler
         $response = $next($request);
         $payload = [
             'site_key' => config('shipwake-ai-crawl.site_key'),
+            'event_id' => (string) Str::uuid(),
+            'occurred_at' => now()->toIso8601String(),
             'href' => $this->publicUrl($request),
             'referrer' => $request->headers->get('referer'),
             'ai' => [
@@ -51,9 +54,9 @@ class TrackAiCrawler
         $origin = config('shipwake-ai-crawl.public_origin') ?: config('app.url');
 
         if (is_string($origin) && $origin !== '') {
-            return rtrim($origin, '/').'/'.ltrim($request->getRequestUri(), '/');
+            return rtrim($origin, '/').'/'.ltrim($request->getPathInfo(), '/');
         }
 
-        return $request->fullUrl();
+        return $request->getSchemeAndHttpHost().$request->getPathInfo();
     }
 }

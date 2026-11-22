@@ -5,6 +5,7 @@ namespace Shipwake\LaravelAiCrawl\Services;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Shipwake\LaravelAiCrawl\Exceptions\RetryableCrawlerRequest;
 
 class AiCrawlerClient
 {
@@ -27,6 +28,10 @@ class AiCrawlerClient
 
         if ($response->successful()) {
             return true;
+        }
+
+        if ($response->status() === 429 || $response->serverError()) {
+            throw new RetryableCrawlerRequest($response->status());
         }
 
         Log::warning('Shipwake AI crawler tracking returned an error.', [

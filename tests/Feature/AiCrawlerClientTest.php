@@ -4,6 +4,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Request as HttpRequest;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Shipwake\LaravelAiCrawl\Exceptions\RetryableCrawlerRequest;
 use Shipwake\LaravelAiCrawl\Services\AiCrawlerClient;
 
 beforeEach(function (): void {
@@ -37,6 +38,13 @@ it('sends the payload as authenticated JSON with configured timeouts', function 
     expect($options['timeout'])->toBe(4)
         ->and($options['connect_timeout'])->toBe(2);
 });
+
+it('throws a retryable error for rate limits and server errors', function (int $status): void {
+    Http::fake(['*' => Http::response([], $status)]);
+
+    expect(fn () => app(AiCrawlerClient::class)->send(crawlerPayload()))
+        ->toThrow(RetryableCrawlerRequest::class, "retryable status {$status}");
+})->with([429, 503]);
 
 it('does not send a request without every required credential', function (string $setting): void {
     Http::fake();
